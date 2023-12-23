@@ -1,0 +1,48 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: 1
+    url: jdbc:postgresql://localhost:5432/library
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: kimsanov0717@gmail.com
+    password: wpluheuhlepggccq
+    properties:
+      mjaail:
+        smtp:
+          auth: true
+      mail:
+        smtp:
+          starttls:
+            enable: true
+
+
+jwt:
+  access:
+    token:
+      expiry: 3600000 # 60 minutes
+      secret:
+        key: 8d1877ec5cb495b9cd9993c636a54ee0e7486212232baaa269dd731bb1ccb6ee
+
+  refresh:
+    token:
+      expiry: 864000000 # 10 days
+      secret:
+        key:
+
+
+
+
