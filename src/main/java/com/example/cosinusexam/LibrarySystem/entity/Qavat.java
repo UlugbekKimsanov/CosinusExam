@@ -11,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class Qavat extends BaseEntity{
-    private int qavatNum;
+    private Integer qavatNum;
     @ManyToOne(targetEntity = Kutubxona.class,cascade = CascadeType.ALL)
     @JoinColumn(nullable = false)
     private Kutubxona kutubxona;

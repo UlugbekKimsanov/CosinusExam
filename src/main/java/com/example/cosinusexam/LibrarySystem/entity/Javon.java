@@ -9,6 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class Javon extends BaseEntity{
+    private Integer javonNum;
     @ManyToOne(targetEntity = Qavat.class,cascade = CascadeType.DETACH)
     @JoinColumn(nullable = false)
     private Qavat qavat;

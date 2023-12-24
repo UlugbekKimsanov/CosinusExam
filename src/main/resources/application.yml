@@ -18,8 +18,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: kimsanov0717@gmail.com
-    password: wpluheuhlepggccq
+    username: coursemanagmentt@gmail.com
+    password: rmtdqcbpmqabptsc
     properties:
       mjaail:
         smtp:
@@ -29,11 +29,10 @@ spring:
           starttls:
             enable: true
 
-
 jwt:
   access:
     token:
-      expiry: 3600000 # 60 minutes
+      expiry: 360000 # 60 minutes
       secret:
         key: 8d1877ec5cb495b9cd9993c636a54ee0e7486212232baaa269dd731bb1ccb6ee
 
