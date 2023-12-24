@@ -1,5 +1,6 @@
-package com.example.cosinusexam.LibrarySystem.config;
+package com.example.cosinusexam.LibrarySystem.config.security;
 
+import com.example.cosinusexam.LibrarySystem.config.jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,14 +12,15 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfiguration {
+
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final AuthenticationProvider authenticationProvider;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -39,9 +41,11 @@ public class SecurityConfiguration {
     }
 
     private static final String[] AUTH_WHITELIST = {
-            "api/v1/auth/**",
-            "api/v1/user/**",
-//            "api/v1/user/new-verification-code",
+            "/auth/*",
+            "/admin/*",
+            "/moderator/*",
+            "/order/*",
+            "/user/*",
             "/v3/api-docs/**",
             "/v3/api-docs.yml",
             "/swagger-ui/**",

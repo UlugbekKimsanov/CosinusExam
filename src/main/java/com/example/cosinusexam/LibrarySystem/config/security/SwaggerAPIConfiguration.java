@@ -1,4 +1,4 @@
-package com.example.cosinusexam.LibrarySystem.config;
+package com.example.cosinusexam.LibrarySystem.config.security;
 
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;

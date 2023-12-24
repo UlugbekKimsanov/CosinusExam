@@ -1,4 +1,4 @@
-package com.example.cosinusexam.LibrarySystem.config;
+package com.example.cosinusexam.LibrarySystem.config.security;
 
 import com.example.cosinusexam.LibrarySystem.repository.UserRepository;
 import io.swagger.v3.oas.models.Components;
@@ -48,7 +48,6 @@ public class ApplicationConfiguration {
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userDetailsService());
-        authenticationProvider.setPasswordEncoder(passwordEncoder());
         return authenticationProvider;
     }
 
@@ -61,4 +60,5 @@ public class ApplicationConfiguration {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 }

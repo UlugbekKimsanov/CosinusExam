@@ -20,6 +20,7 @@ import java.util.UUID;
 public class UserService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
+    private final AuthService authService;
 
     public UserResponseDTO myProfile(Principal principal){
         System.out.println("principal.getName() = " + principal);
@@ -28,7 +29,7 @@ public class UserService {
         return modelMapper.map(userEntity, UserResponseDTO.class);
     }
     public UserResponseDTO update(UserCr user, Principal principal) {
-        UserEntity userEntity1 = userRepository.findById(UUID.fromString(principal.getName())).
+        UserEntity userEntity1 = (UserEntity) userRepository.findByEmail(principal.getName()).
                 orElseThrow(() -> new DataNotFoundException("User not found!"));
         if(!Objects.equals(user.getName(),null)){
             userEntity1.setName(user.getName());
@@ -36,13 +37,17 @@ public class UserService {
             userEntity1.setSurname(user.getSurname());
         }if(!Objects.equals(user.getEmail(),null)){
             userEntity1.setEmail(user.getEmail());
+        }if(!Objects.equals(user.getPassword(),null)){
+            authService.checkPasswordIsValid(user.getPassword());
+            userEntity1.setPassword(user.getPassword());
         }
         UserEntity userEntity = userRepository.save(userEntity1);
         return modelMapper.map(userEntity,UserResponseDTO.class);
+
     }
 
     public String delete(Principal principal) {
-        userRepository.deleteById(UUID.fromString(principal.getName()));
+        userRepository.deleteByEmail(principal.getName());
         return "Deleted!";
     }
 }

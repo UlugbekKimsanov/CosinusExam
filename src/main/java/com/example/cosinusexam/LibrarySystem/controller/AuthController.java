@@ -15,17 +15,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthService authService;
-    @PermitAll
     @PostMapping("/sign-up")
     public ResponseEntity<String> create (@RequestBody UserCr user) {
         return ResponseEntity.status(HttpStatus.CREATED).body(authService.create(user));
     }
 
-    @PermitAll
     @PostMapping("/verify")
     public ResponseEntity<TokenDTO> verify(
             @Valid @RequestBody VerifyDTO verifyDTO
@@ -33,7 +31,6 @@ public class AuthController {
         return ResponseEntity.ok(authService.verify(verifyDTO.getEmail(), verifyDTO.getVerificationCode()));
     }
 
-    @PermitAll
     @GetMapping("/new-verification-code")
     public ResponseEntity<String> newVerificationCode(
             @RequestParam String email
@@ -41,7 +38,7 @@ public class AuthController {
         return ResponseEntity.ok(authService.newVerifyCode(email));
     }
 
-    @PermitAll
+
     @PostMapping("/sing-in")
     public ResponseEntity<TokenDTO> signIn(
             @Valid @RequestBody LoginDTO loginDTO
@@ -49,7 +46,7 @@ public class AuthController {
         return ResponseEntity.ok(authService.login(loginDTO));
     }
 
-    @PermitAll
+
     @PostMapping("/forgot-password")
     public ResponseEntity<String> forgotPassword(
             @RequestParam @Email String email
@@ -57,7 +54,7 @@ public class AuthController {
         return ResponseEntity.ok(authService.forgotPassword(email));
     }
 
-    @PermitAll
+
     @PutMapping("/reset-password")
     public ResponseEntity<String> resetPassword(
             @Valid @RequestBody ResetPasswordDTO resetPasswordDTO

@@ -1,17 +1,20 @@
 package com.example.cosinusexam.LibrarySystem.controller;
 
 import com.example.cosinusexam.LibrarySystem.dto.*;
+import com.example.cosinusexam.LibrarySystem.dto.Request.KitobCr;
+import com.example.cosinusexam.LibrarySystem.dto.Response.KitobResponseDto;
+import com.example.cosinusexam.LibrarySystem.entity.Kitob;
 import com.example.cosinusexam.LibrarySystem.entity.Qavat;
 import com.example.cosinusexam.LibrarySystem.service.*;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
+@RequestMapping("/admin")
 @RequiredArgsConstructor
 public class AdminController {
     private final KutubxonaService kutubxonaService;
@@ -36,13 +39,8 @@ public class AdminController {
         return ResponseEntity.status(200).body(javonService.create(javonDto));
     }
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/create-polka")
-    public ResponseEntity<PolkaDto> create(@RequestBody PolkaDto polkaDto) {
-        return ResponseEntity.status(200).body(polkaService.create(polkaDto));
-    }
-    @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/create-kitob")
-    public ResponseEntity<KitobDto> create(@RequestBody KitobDto kitobDto) {
-        return ResponseEntity.status(200).body(kitobService.create(kitobDto));
+    @GetMapping("/get_all_books")
+    public ResponseEntity<List<Kitob>> getBooks(){
+        return ResponseEntity.ok(kitobService.getAll());
     }
 }
