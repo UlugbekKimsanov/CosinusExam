@@ -1,5 +1,8 @@
 package com.example.cosinusexam.LibrarySystem.entity;
 
+import com.example.cosinusexam.LibrarySystem.entity.enums.UserRole;
+import com.example.cosinusexam.LibrarySystem.entity.enums.UserStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -21,29 +24,34 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 public class UserEntity extends BaseEntity implements UserDetails {
+
+    @Column(nullable = false)
     private String name;
+    @Column(nullable = false)
     private String surname;
-    @Email
-    @Column(unique = true)
+
+    @Column(nullable = false, unique = true)
     private String email;
+
+    @Column(nullable = false)
+    @JsonIgnore
     private String password;
+
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private UserRole role;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private UserStatus status;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Set<SimpleGrantedAuthority> authorities =
-                new HashSet<>(Set.of(new SimpleGrantedAuthority("ROLE_" + role.name())));
-        return authorities;
+        return role.getAuthorities();
     }
 
     @Override
     public String getUsername() {
         return email;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
     }
 
     @Override

@@ -11,7 +11,4 @@ import java.util.List;
 @Builder
 public class Kutubxona extends BaseEntity{
     private String name;
-//    @OneToMany(targetEntity = Qavat.class,cascade = CascadeType.PERSIST)
-//    @JsonIgnore
-//    private List<Qavat> qavatlar;
 }
