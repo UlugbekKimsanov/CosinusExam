@@ -1,4 +1,5 @@
-package com.example.cosinusexam.LibrarySystem.config;
+package com.example.cosinusexam.LibrarySystem.config.jwt;
+
 import com.example.cosinusexam.LibrarySystem.dto.Response.TokenDTO;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -14,7 +15,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
-
 
 @Service
 public class JwtService {

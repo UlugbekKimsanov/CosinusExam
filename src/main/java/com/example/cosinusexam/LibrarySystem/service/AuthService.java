@@ -1,5 +1,5 @@
 package com.example.cosinusexam.LibrarySystem.service;
-import com.example.cosinusexam.LibrarySystem.config.JwtService;
+import com.example.cosinusexam.LibrarySystem.config.jwt.JwtService;
 import com.example.cosinusexam.LibrarySystem.dto.Request.LoginDTO;
 import com.example.cosinusexam.LibrarySystem.dto.Request.ResetPasswordDTO;
 import com.example.cosinusexam.LibrarySystem.dto.Request.UserCr;
@@ -39,7 +39,7 @@ public class AuthService {
         checkEmailUnique(userCr.getEmail());
         checkPasswordIsValid(userCr.getPassword());
         UnverifiedUser user = modelMapper.map(userCr, UnverifiedUser.class);
-        user.setPassword(passwordEncoder.encode(userCr.getPassword()));
+        user.setPassword(userCr.getPassword());
         VerificationData verifyData = generateVerificationData();
         user.setVerificationCode(verifyData.getVerificationCode());
         user.setVerificationDate(verifyData.getVerificationDate());
@@ -67,7 +67,10 @@ public class AuthService {
 
 
     public String newVerifyCode(String email) {
-      UnverifiedUser user = unverifiedUserRepository.findByEmail(email);
+        UnverifiedUser user = unverifiedUserRepository.findByEmail(email);
+        if(Objects.equals(user,null)){
+            throw new DataNotFoundException("You do not sign up yet!");
+        }
         VerificationData verifyData = generateVerificationData();
         user.setVerificationCode(verifyData.getVerificationCode());
         user.setVerificationDate(verifyData.getVerificationDate());
@@ -76,11 +79,17 @@ public class AuthService {
         return message;
     }
 
+
     @SneakyThrows
     public TokenDTO login(LoginDTO loginDTO) {
         UserEntity user = (UserEntity) userRepository.findByEmail(loginDTO.getEmail())
                 .orElseThrow(() -> new DataNotFoundException("User not found!"));
-        return jwtService.generateToken(user.getEmail());
+        if(Objects.equals(user.getPassword(),loginDTO.getPassword())){
+            return jwtService.generateToken(user.getEmail());
+        }else {
+            throw  new BadRequestException("Password or email incorrect!");
+        }
+
     }
 
     public String forgotPassword(String email) {
@@ -95,7 +104,7 @@ public class AuthService {
             return "Verification code wrong";
         checkPasswordIsValid(resetPasswordDTO.getNewPassword());
         UserEntity userEntity = (UserEntity) userRepository.findByEmail(resetPasswordDTO.getEmail()).get();
-        userEntity.setPassword(passwordEncoder.encode(resetPasswordDTO.getNewPassword()));
+        userEntity.setPassword(resetPasswordDTO.getNewPassword());
         userRepository.save(userEntity);
         return "Password successfully changed";
     }
@@ -115,7 +124,7 @@ public class AuthService {
 
 
 
-    private void checkPasswordIsValid(String password) {
+    public void checkPasswordIsValid(String password) {
         String passwordRegex = "^(?=.*[a-zA-Z])(?=.*\\d).{8,20}$";
         if (!password.matches(passwordRegex)) {
             throw new IllegalArgumentException("Invalid password: " + password);
