@@ -43,4 +43,6 @@ public class AdminController {
     public ResponseEntity<List<Kitob>> getBooks(){
         return ResponseEntity.ok(kitobService.getAll());
     }
+
+
 }
