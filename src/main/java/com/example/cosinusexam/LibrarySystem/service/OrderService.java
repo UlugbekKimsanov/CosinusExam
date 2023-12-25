@@ -74,4 +74,14 @@ public class OrderService {
     public List<Order> getOrders(Principal principal) {
         return orderRepository.findAllByOwnerEmail(principal.getName());
     }
+
+    public List<KitobResponseDto> searchByName(String bookName) {
+        List<Kitob> kitobList = kitobRepository.findByNameContaining(bookName);
+        return modelMapper.map(kitobList, new TypeToken<List<KitobResponseDto>>(){}.getType());
+    }
+
+    public List<KitobResponseDto> searchByAuthor(String author) {
+        List<Kitob> kitobList = kitobRepository.findByAuthorContaining(author);
+        return modelMapper.map(kitobList, new TypeToken<List<KitobResponseDto>>(){}.getType());
+    }
 }

@@ -40,6 +40,15 @@ public class OrderController {
     public ResponseEntity<List<Order>> myOrders(Principal principal){
         return ResponseEntity.ok(orderService.getOrders(principal));
     }
-
+    @PreAuthorize("hasAnyRole('ADMIN','USER','MODERATOR')")
+    @GetMapping("/search_books_by_name")
+    public ResponseEntity<List<KitobResponseDto>> searchByName(@RequestParam String bookName){
+        return ResponseEntity.ok(orderService.searchByName(bookName));
+    }
+    @PreAuthorize("hasAnyRole('ADMIN','USER','MODERATOR')")
+    @GetMapping("/search_books_by_author")
+    public ResponseEntity<List<KitobResponseDto>> searchByAuthor(@RequestParam String authorName){
+        return ResponseEntity.ok(orderService.searchByAuthor(authorName));
+    }
 
 }

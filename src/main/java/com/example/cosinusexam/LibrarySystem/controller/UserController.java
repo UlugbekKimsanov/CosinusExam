@@ -18,7 +18,6 @@ import java.security.Principal;
 @RequestMapping("/user")
 public class UserController {
     private final UserService userService;
-    private final KitobService kitobService;
 
     @PermitAll
     @PutMapping("/update")

@@ -10,4 +10,6 @@ import java.util.UUID;
 @Repository
 public interface KitobRepository extends JpaRepository<Kitob, UUID> {
     List<Kitob> findByStatus(KitobStatus status);
+    List<Kitob> findByNameContaining(String name);
+    List<Kitob> findByAuthorContaining(String authorName);
 }
