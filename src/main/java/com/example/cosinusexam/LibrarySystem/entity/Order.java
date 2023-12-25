@@ -3,7 +3,6 @@ package com.example.cosinusexam.LibrarySystem.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToOne;
 import lombok.*;
-
 import java.time.LocalDateTime;
 
 @Entity(name = "Orders")
@@ -18,7 +17,7 @@ public class Order extends BaseEntity {
     private LocalDateTime expiryDate;
     @OneToOne
     UserEntity owner;
-    public Order(Kitob kitob,UserEntity owner) {
+    public Order(Kitob kitob,UserEntity owner){
         this.owner = owner;
         this.kitob = kitob;
         this.expiryDate = LocalDateTime.now().plusDays(3);
